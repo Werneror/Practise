@@ -48,4 +48,5 @@ getall.py -w http://www.wangning.site -A .jpg.png
 凯撒加密
 
 ##pushbox.py
-推箱子小游戏
+推箱子小游戏，
+需要gifs文件夹下的gif文件支持。
