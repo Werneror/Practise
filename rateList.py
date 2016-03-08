@@ -109,7 +109,6 @@ for (itemId,selllerId) in zip(itemIdList, sellerIdList)[number:]:
     time.sleep(2)
     rateList2csv(int(itemId), int(selllerId))
     #exit(0)
-file_data.close()
 '''
 # 关闭数据库连接
 db.close()
