@@ -50,3 +50,6 @@ getall.py -w http://www.wangning.site -A .jpg.png
 ##pushbox.py
 推箱子小游戏，
 需要gifs文件夹下的gif文件支持。
+
+##rateList.py
+爬去天猫评论信息的爬虫，获得的数据保存于数据库中
