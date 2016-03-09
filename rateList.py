@@ -68,10 +68,10 @@ def rateList2csv(itemId,sellerId):
                     db.ping(True)
                 except:
                     db = MySQLdb.connect(db_config["hostname"],
-										db_config["username"],
-										db_config["password"],
-										db_config["databasename"],
-										charset='utf8')
+          db_config["username"],
+          db_config["password"],
+          db_config["databasename"],
+          charset='utf8')
                 # 使用cursor()方法获取操作游标 
                 cursor = db.cursor()
                 try:
@@ -86,17 +86,17 @@ def rateList2csv(itemId,sellerId):
             oldjson = newjson
 
 db_config = {"hostname": "localhost",
-			"username": "root",
-			"password": "root",
-			"databasename": "tmalldata",
-			"tablename": "rateList"}
+   "username": "root",
+   "password": "root",
+   "databasename": "tmalldata",
+   "tablename": "rateList"}
 
 # 打开数据库连接
 db = MySQLdb.connect(db_config["hostname"],
-					db_config["username"],
-					db_config["password"],
-					db_config["databasename"],
-					charset='utf8')
+     db_config["username"],
+     db_config["password"],
+     db_config["databasename"],
+     charset='utf8')
 # 抓取数据
 rateList2csv(44090725053, 725677994)
 '''
