@@ -152,8 +152,8 @@ for (itemId,selllerId) in zip(itemIdList, sellerIdList)[number:]:
 db.close()
 printlog(u'Close database connection.', u'OK', 0, 0)
 #关闭日志文件
-logfile.close()
 printlog(u'Close log file.', u'OK', 0, 0)
+logfile.close()
 
 '''
 创建数据库时就设置好字符编码，防止中文乱码
