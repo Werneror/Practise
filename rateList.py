@@ -4,11 +4,21 @@ import time
 import MySQLdb
 import requests
 import pandas as pd
+from time import strftime,localtime
+import sys
+reload(sys)
+sys.setdefaultencoding('utf-8') #其中utf-8为你想输出的字符编码
 
-def rateList2csv(itemId,sellerId):
-    '''itemId是商品id，sellerid是卖家id,根据输入的itemId和sellerId，生成对应的累计评论csv文件'''
-    starttime = time.asctime(time.localtime(time.time()))
-    print u'开始采集“累计评价”数据\t\t',starttime,'\n','*'*80
+def printlog(message, data, number, i):
+    nowtime = strftime("%Y-%m-%d,%H:%M:%S", localtime())
+    log = u"[{0},number={1},i={2}]{3}\n{4}\n".format(nowtime, number, i, message, data)
+    logfile.write(log)
+    print(log)
+#END OF printlog
+
+def rateList2mysql(itemId,sellerId):
+    '''该函数将指定商品的评论信息保存到mysql数据库中，
+    itemId是商品id，sellerid是卖家id'''
     headersParameters = {
         'Connection': 'Keep-Alive',
         'Accept': 'text/html, application/xhtml+xml, */*',
@@ -68,10 +78,10 @@ def rateList2csv(itemId,sellerId):
                     db.ping(True)
                 except:
                     db = MySQLdb.connect(db_config["hostname"],
-          db_config["username"],
-          db_config["password"],
-          db_config["databasename"],
-          charset='utf8')
+                                          db_config["username"],
+                                          db_config["password"],
+                                          db_config["databasename"],
+                                          charset='utf8')
                 # 使用cursor()方法获取操作游标 
                 cursor = db.cursor()
                 try:
@@ -84,21 +94,27 @@ def rateList2csv(itemId,sellerId):
                 #Rollback in case there is any error
                     db.rollback()
             oldjson = newjson
+#END OF rateList2mysql
 
-db_config = {"hostname": "localhost",
-   "username": "root",
-   "password": "root",
-   "databasename": "tmalldata",
-   "tablename": "rateList"}
-
+#在此处设置数据库连接信息
+db_config = {
+    "hostname": "localhost",#主机名
+    "username": "root",#数据库用户名
+    "password": "root",#数据库密码
+    "databasename": "tmalldata",#要存入数据的数据库名
+    "tablename": "rateList"#要存入数据的表名
+    }
+#打开日志文件
+logfile = open('rateListLog.txt', 'a')
 # 打开数据库连接
 db = MySQLdb.connect(db_config["hostname"],
-     db_config["username"],
-     db_config["password"],
-     db_config["databasename"],
-     charset='utf8')
+                     db_config["username"],
+                     db_config["password"],
+                     db_config["databasename"],
+                     charset='utf8')
 # 抓取数据
-rateList2csv(44090725053, 725677994)
+#rateList2mysql(44090725053, 725677994)
+printlog(u'测试日志功能', u'OK', 23, 56)
 '''
 itemIdList = open('itemId.txt', 'r').readlines()
 sellerIdList = open('sellerId.txt', 'r').readlines()
@@ -107,14 +123,16 @@ for (itemId,selllerId) in zip(itemIdList, sellerIdList)[number:]:
     number += 1
     print u'第['+str(number)+u']个商品：'
     time.sleep(2)
-    rateList2csv(int(itemId), int(selllerId))
+    rateList2mysql(int(itemId), int(selllerId))
     #exit(0)
 '''
-# 关闭数据库连接
+#关闭数据库连接
 db.close()
+#关闭日志文件
+logfile.close()
 
 '''
-创建数据库
+创建数据库时就设置好字符编码，防止中文乱码
 CREATE DATABASE tmalldata DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
 创建数据表
 CREATE TABLE rateList(
