@@ -30,12 +30,11 @@ headersParameters = {
     }
 
 def printlog(message, data, number, i):
-    '''该函数同时向标准输出设备和logfile输出日志信息，
-    虽然可以输出中文信息，但有些平台不支持中文显示，建议使用英文'''
+    '''该函数向logfile输出日志信息，虽然可以输出中文信息，
+	但有些平台不支持中文显示，建议使用英文'''
     nowtime = strftime("%Y-%m-%d,%H:%M:%S", localtime())
-    log = u"[{0},number={1},page={2}]{3}\n{4}\n".format(nowtime, number, i, message, data)
-    logfile.write(log+u'\n')
-    print(log)
+    log = u"[{0},number={1},page={2}]{3}\n{4}\n\n".format(nowtime, number, i, message, data)
+    logfile.write(log)
 #END OF printlog
 
 def rateList2mysql(itemId,sellerId):
