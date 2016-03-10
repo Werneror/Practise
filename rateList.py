@@ -137,7 +137,7 @@ for (itemId,selllerId) in zip(itemIdList, sellerIdList)[number:]:
     time.sleep(2)	#谨慎起见
     number += 1
     #打开日志文件
-    logfile = open('rateListLog{0}.txt'.format(number), 'a')
+    logfile = open('{0}rateListLog.txt'.format(number), 'a')
     printlog(u'Start collceting this rates.', u'OK', number, 0, logfile)
     rateList2mysql(int(itemId), int(selllerId), logfile)
     #关闭日志文件
@@ -145,7 +145,7 @@ for (itemId,selllerId) in zip(itemIdList, sellerIdList)[number:]:
     logfile.close()
     #删除前一个的前一个商品的日志文件，避免最后日志文件过大
     try:
-        os.remove('rateListLog{0}.txt'.format(number-2))
+        os.remove('{0}rateListLog.txt'.format(number-2))
     except OSError:
         pass	#万一删除失败了也不再纠结于此
     #break
