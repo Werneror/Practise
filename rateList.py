@@ -44,7 +44,7 @@ def rateList2mysql(itemId, sellerId, logfile):
     同时日志信息会保存在logfile中'''
     oldjson = ''
     i = 0   #i表示页码
-    while True:
+    while i<99:	#最多返回99页结果
         i += 1
         url = 'http://rate.tmall.com/list_detail_rate.htm'
         urlparams = {'itemId':str(itemId),'sellerId':str(sellerId),'currentPage':str(i)}
@@ -68,61 +68,61 @@ def rateList2mysql(itemId, sellerId, logfile):
         except UnicodeDecodeError:
             printlog(u'Failed to unicode the content.', u'ERROR', number, i, logfile)
             time.sleep(1)
-            if i > 99:
-                return
-        else:
-            printlog(u'Succeed in unicoding the content.', u'OK', number, i, logfile)
-            #去除天猫返回的json中不和json规范的部分，即只保留中括号中的内容
-            #用''.join()而不用[0]索引是为了防止匹配不成功出发错误中断程序
-            printlog(u'Try to regular expression matching.', u'waiting', number, i, logfile)
-            newjson = ''.join(re.findall(r'\"rateList\":(\[.*?\])\,\"searchinfo\"',response))
-            if newjson == '':#如果匹配失败，则尝试老版本的正则
-                newjson = ''.join(re.findall(r'\"rateList\":(\[.*?\])\,\"tags\"',response))
-            if newjson =='':
-                printlog(u'Regual matching results are null.', u'WARN', number, i, logfile)
-            printlog(u'Succeed in regularing expression matching.', u'OK', number, i, logfile)
-            if newjson == oldjson:  #当请求页码超过最大页码后，返回页面为最大页码页面，以此作为结束条件
-                printlog(u'Finished collceting this rates.', u'OK', number, i, logfile)
-                return
-            printlog(u'Try to analyz Json.', u'waiting', number, i, logfile)
-            mytable = pd.read_json(newjson) #不使用to_sql的原因是评论过于复杂，to_sql构造的sql语句常常出错
-            printlog(u'Succeed in analyzing Json.', u'OK', number, i, logfile)
-            for item in mytable.values:
-                sql = u"INSERT INTO "+unicode(db_config["tablename"])+u" VALUES ("
-                for j in item:
-                    temp = re.sub(r'\"', r'\\"', unicode(j))
-                    sql += u'\n"' + temp + u'",'
-                sql = sql[:-1]
-                sql += u');'
-                # 使用cursor()方法获取操作游标
-                try:#MySQLdb不支持长连接，在操作数据库前检查连接是否过期，过期则重连
-                    db.ping(True)
-                except:
-                    #再次连接数据库
-                    printlog(u'Try to connect Mysql again.', db_config, number, i, logfile)
-                    db = MySQLdb.connect(db_config["hostname"],
-                                         db_config["username"],
-                                         db_config["password"],
-                                         db_config["databasename"],
-                                         charset='utf8')
-                    printlog(u'Succeed in connecting Mysql.', u'OK', number, i, logfile)
-                # 使用cursor()方法获取操作游标 
-                cursor = db.cursor()
-                printlog(u'Try to executing the SQL:', u'waiting',  number, i, logfile)
-                try:
-                    #使用execute方法执行SQL语句
-                    cursor.execute(sql)
-                    cursor.close()
-                    # 提交到数据库执行
-                    db.commit()
-                except:
-                    printlog(u'Failed to execute the SQL. The SQL is:', sql, number, i, logfile)
-                    exit(0)	#调试时打开此句。
-                printlog(u'Succeed in executing the SQL:', u'OK', number, i, logfile)
-            oldjson = newjson
+            continue
+
+        printlog(u'Succeed in unicoding the content.', u'OK', number, i, logfile)
+        #去除天猫返回的json中不和json规范的部分，即只保留中括号中的内容
+        #用''.join()而不用[0]索引是为了防止匹配不成功出发错误中断程序
+        printlog(u'Try to regular expression matching.', u'waiting', number, i, logfile)
+        newjson = ''.join(re.findall(r'\"rateList\":(\[.*?\])\,\"searchinfo\"',response))
+        if newjson == '':#如果匹配失败，则尝试老版本的正则
+            newjson = ''.join(re.findall(r'\"rateList\":(\[.*?\])\,\"tags\"',response))
+        if newjson =='':
+            printlog(u'Regual matching results are null.', u'WARN', number, i, logfile)
+        printlog(u'Succeed in regularing expression matching.', u'OK', number, i, logfile)
+        if newjson == oldjson:  #当请求页码超过最大页码后，返回页面为最大页码页面，以此作为结束条件
+            printlog(u'Finished collceting this rates.', u'OK', number, i, logfile)
+            return
+
+        printlog(u'Try to analyz Json.', u'waiting', number, i, logfile)
+        mytable = pd.read_json(newjson) #不使用to_sql的原因是评论过于复杂，to_sql构造的sql语句常常出错
+        printlog(u'Succeed in analyzing Json.', u'OK', number, i, logfile)
+        for item in mytable.values:
+            sql = u"INSERT INTO "+unicode(db_config["tablename"])+u" VALUES ("
+            for j in item:
+                temp = re.sub(r'\"', r'\\"', unicode(j))
+                sql += u'\n"' + temp + u'",'
+            sql = sql[:-1]
+            sql += u');'
+            # 使用cursor()方法获取操作游标
+            try:#MySQLdb不支持长连接，在操作数据库前检查连接是否过期，过期则重连
+                db.ping(True)
+            except:
+                #再次连接数据库
+                printlog(u'Try to connect Mysql again.', db_config, number, i, logfile)
+                db = MySQLdb.connect(db_config["hostname"],
+                                     db_config["username"],
+                                     db_config["password"],
+                                     db_config["databasename"],
+                                     charset='utf8')
+                printlog(u'Succeed in connecting Mysql.', u'OK', number, i, logfile)
+            # 使用cursor()方法获取操作游标 
+            cursor = db.cursor()
+            printlog(u'Try to executing the SQL:', u'waiting',  number, i, logfile)
+            try:
+                #使用execute方法执行SQL语句
+                cursor.execute(sql)
+                cursor.close()
+                # 提交到数据库执行
+                db.commit()
+            except:
+                printlog(u'Failed to execute the SQL. The SQL is:', sql, number, i, logfile)
+                exit(0)	#调试时打开此句。
+            printlog(u'Succeed in executing the SQL:', u'OK', number, i, logfile)
+        oldjson = newjson
 #END OF rateList2mysql
 
-
+print(u'程序开始运行。')
 # 打开数据库连接
 db = MySQLdb.connect(db_config["hostname"],
                      db_config["username"],
@@ -148,9 +148,11 @@ for (itemId,selllerId) in zip(itemIdList, sellerIdList)[number:]:
         os.remove('rateListLog{0}.txt'.format(number-2))
     except OSError:
         pass	#万一删除失败了也不再纠结于此
+    #break
 
 #关闭数据库连接
 db.close()
+print(u'程序运行结束。')
 
 '''
 创建数据库时就设置好字符编码，防止中文乱码
