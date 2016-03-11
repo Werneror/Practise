@@ -51,6 +51,14 @@ def rateList2mysql(itemId, sellerId, logfile):
         try:
             r = requests.get(url,params=urlparams,headers=headersParameters)
             printlog(u'Try to open the url:', r.url, number, i, logfile)
+            if r.url=="http://err.taobao.com/error1.html":	#跳转到这个页面则暂停20分钟
+                time.sleep(1200)
+                try:
+                    r = requests.get(url,params=urlparams,headers=headersParameters)
+                    printlog(u'Try to open the url again:', r.url, number, i, logfile)
+                except requests.exceptions.ConnectionError:
+                    printlog(u'Failed to open the url.', u'ERROR', number, i, logfile)
+                    continue
         except requests.exceptions.ConnectionError:
             time.sleep(10)
             try:
