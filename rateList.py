@@ -3,10 +3,12 @@ import re
 import os
 import sys
 import time
+import smtplib  
 import MySQLdb
 import requests
 import pandas as pd
 from time import strftime,localtime
+from email.mime.text import MIMEText
 
 #使文件支持中文输出
 reload(sys)
@@ -38,6 +40,28 @@ def printlog(message, data, number, i, logfile):
     logfile.write(log)
 #END OF printlog
 
+def send163mail(subject, body, receiver):
+    '''按如下配置发送以subject为标题，body为内容的邮件到receiver，
+    其中body支持html格式，receiver是列表，每个元素是一个收件人地址'''
+    host = 'smtp.163.com'  # 设置发件服务器地址
+    port = 25  # 设置发件服务器端口号。注意，这里有SSL和非SSL两种形式
+    sender = '**************@163.com'  # 设置发件邮箱，一定要自己注册的邮箱
+    pwd = '**************'  # 设置发件邮箱的密码，等会登陆会用到
+
+    msg = MIMEText(body, 'html') # 设置正文为符合邮件格式的HTML内容
+    msg['subject'] = subject # 设置邮件标题
+    msg['from'] = sender  # 设置发送人
+
+        
+    s = smtplib.SMTP(host, port)  # 注意！如果是使用SSL端口，这里就要改为SMTP_SSL
+    s.login(sender, pwd)  # 登陆邮箱
+    for item in receiver:
+        msg['to'] = item  # 设置接收人
+        s.sendmail(sender, item, msg.as_string())  # 发送邮件
+        time.sleep(20)	#谨慎起见，每发一封邮件都暂停20秒
+        print 'send mail to {0} is over.'.format(item)  #发送成功就会提示
+#END OF send163mail
+
 def rateList2mysql(itemId, sellerId, logfile):
     '''该函数将指定商品的评论信息保存到mysql数据库中，
     itemId是商品id，sellerid是卖家id
@@ -52,6 +76,7 @@ def rateList2mysql(itemId, sellerId, logfile):
             r = requests.get(url,params=urlparams,headers=headersParameters)
             printlog(u'Try to open the url:', r.url, number, i, logfile)
             if r.url=="http://err.taobao.com/error1.html":	#跳转到这个页面则暂停20分钟
+                printlog(u'Back a error html.', u'ERROR', number, i, logfile)
                 time.sleep(1200)
                 try:
                     r = requests.get(url,params=urlparams,headers=headersParameters)
@@ -130,45 +155,46 @@ def rateList2mysql(itemId, sellerId, logfile):
         oldjson = newjson
 #END OF rateList2mysql
 
-print(u'程序开始运行。')
-# 打开数据库连接
-db = MySQLdb.connect(db_config["hostname"],
-                     db_config["username"],
-                     db_config["password"],
-                     db_config["databasename"],
-                     charset='utf8')
-# 抓取数据
-itemIdList = open('itemId.txt', 'r').readlines()
-sellerIdList = open('sellerId.txt', 'r').readlines()
-number = 0 #已经爬取过数据的（包括正在爬的）商品的数目
-for (itemId,selllerId) in zip(itemIdList, sellerIdList)[number:]:
-    time.sleep(2)	#谨慎起见
-    number += 1
-    #打开日志文件
-    logfile = open('{0}rateListLog.txt'.format(number), 'a')
-    printlog(u'Start collceting this rates.', u'OK', number, 0, logfile)
-    rateList2mysql(int(itemId), int(selllerId), logfile)
-    #关闭日志文件
-    printlog(u'Close log file.', u'OK', number, 0, logfile)
-    logfile.close()
-    #删除前一个的前一个商品的日志文件，避免最后日志文件过大
+number = 0 #已经爬取过数据的（包括正在爬的）商品的数目 全局变量！
+if __name__ == '__main__':
     try:
-        os.remove('{0}rateListLog.txt'.format(number-2))
-    except OSError:
-        pass	#万一删除失败了也不再纠结于此
-    #break
-
-#关闭数据库连接
-db.close()
-print(u'程序运行结束。')
+        print(u'程序开始运行。')
+        # 抓取数据
+        itemIdList = open('itemId.txt', 'r').readlines()
+        sellerIdList = open('sellerId.txt', 'r').readlines()
+        for (itemId,selllerId) in zip(itemIdList, sellerIdList)[number:]:
+            time.sleep(2)	#谨慎起见
+            number += 1
+            #打开日志文件
+            logfile = open('{0}rateListLog.txt'.format(number), 'a')
+            printlog(u'Start collceting this rates.', u'OK', number, 0, logfile)
+            rateList2mysql(int(itemId), int(selllerId), logfile)
+            #关闭日志文件
+            printlog(u'Close log file.', u'OK', number, 0, logfile)
+            logfile.close()
+            #删除前一个的前一个商品的日志文件，避免最后日志文件过大
+            try:
+                os.remove('{0}rateListLog.txt'.format(number-2))
+            except OSError:
+                pass	#万一删除失败了也不再纠结于此
+            #break
+        #关闭数据库连接
+        db.close()
+        print(u'程序运行结束。')
+    except:
+        errorstr = sys.exc_info()
+        subject = "WARM!"
+        body = "Unexpeccted halt!"+errorstr
+        receiver = ["**************",]
+        send163mail(subject, body, receiver)
 
 '''
 创建数据库时就设置好字符编码，防止中文乱码
-CREATE DATABASE tmalldata DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
+CREATE DATABASE tmalldata DEFAULT charACTER SET utf8 COLLATE utf8_general_ci;
 创建数据表
 CREATE TABLE rateList(
-aliMallSeller char(8),
-anony char(8),
+aliMallSeller varchar(8),
+anony varchar(8),
 appendComment text,
 attributes text,
 attributesMap text,
@@ -177,36 +203,36 @@ auctionPicUrl tinytext,
 auctionPrice tinytext,
 auctionSku tinytext,
 auctionTitle tinytext,
-buyCount char(20),
+buyCount varchar(20),
 carServiceLocation tinytext,
-cmsSource char(20),
-displayRatePic char(20),
-displayRateSum char(20),
+cmsSource varchar(20),
+displayRatePic varchar(20),
+displayRateSum varchar(20),
 displayUserLink tinytext,
-displayUserNick char(20),
+displayUserNick varchar(20),
 displayUserNumId tinytext,
 displayUserRateLink tinytext,
 dsr tinytext,
-fromMall char(8),
+fromMall varchar(8),
 fromMemory tinytext,
-gmtCreateTime char(22),
-id char(22),
+gmtCreateTime varchar(22),
+id varchar(22),
 pics text,
 picsSmall tinytext,
 position tinytext,
 rateContent text,
-rateDate char(30),
+rateDate varchar(30),
 reply text,
-sellerId char(20),
+sellerId varchar(20),
 serviceRateContent text,
 structuredRateList tinytext,
 tamllSweetLevel tinytext,
 tmallSweetPic tinytext,
-tradeEndTime char(20),
+tradeEndTime varchar(20),
 tradeId tinytext,
-useful char(8),
+useful varchar(8),
 userIdEncryption tinytext,
 userInfo tinytext,
-userVipLevel char(8),
+userVipLevel varchar(8),
 userVipPic tinytext);
 '''
