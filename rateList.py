@@ -196,7 +196,8 @@ if __name__ == '__main__':
         errorstr = traceback.format_exc()
         print(errorstr)
         subject = "WARM!"
-        body = "<h2>Unexpeccted halt!</h2><pre>"+str(errorstr)+"</pre>"
+        nowtime = strftime("%Y-%m-%d,%H:%M:%S", localtime())
+        body = "<h2>Unexpeccted halt!</h2><pre>{0}</pre><p>{1}</p>".format(errorstr, nowtime)
         receiver = ["me@wangning.site",]
         send163mail(subject, body, receiver)
 
