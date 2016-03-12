@@ -187,7 +187,7 @@ if __name__ == '__main__':
                 os.remove('{0}rateListLog.txt'.format(number-2))
             except OSError:
                 pass	#万一删除失败了也不再纠结于此
-            break
+            #break
         #关闭数据库连接
         db.close()
         print(u'程序运行结束。')
