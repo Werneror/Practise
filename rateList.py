@@ -6,6 +6,7 @@ import time
 import smtplib  
 import MySQLdb
 import requests
+import traceback
 import pandas as pd
 from time import strftime,localtime
 from email.mime.text import MIMEText
@@ -45,8 +46,8 @@ def send163mail(subject, body, receiver):
     其中body支持html格式，receiver是列表，每个元素是一个收件人地址'''
     host = 'smtp.163.com'  # 设置发件服务器地址
     port = 25  # 设置发件服务器端口号。注意，这里有SSL和非SSL两种形式
-    sender = '**************@163.com'  # 设置发件邮箱，一定要自己注册的邮箱
-    pwd = '**************'  # 设置发件邮箱的密码，等会登陆会用到
+    sender = '************@163.com'  # 设置发件邮箱，一定要自己注册的邮箱
+    pwd = '************'  # 设置发件邮箱的密码，等会登陆会用到
 
     msg = MIMEText(body, 'html') # 设置正文为符合邮件格式的HTML内容
     msg['subject'] = subject # 设置邮件标题
@@ -123,7 +124,9 @@ def rateList2mysql(itemId, sellerId, logfile):
         for item in mytable.values:
             sql = u"INSERT INTO "+unicode(db_config["tablename"])+u" VALUES ("
             for j in item:
-                temp = re.sub(r'\"', r'\\"', unicode(j))
+                temp = re.sub(r'\"', r'\\"', unicode(j))	#句子中出现"需转义
+                if len(temp)>1 and temp[-1]=="\\" and temp[-2]!="\\":	#防止句尾是\将后"转义时SQL语句出错
+                    temp = temp[:-1]
                 sql += u'\n"' + temp + u'",'
             sql = sql[:-1]
             sql += u');'
@@ -150,7 +153,7 @@ def rateList2mysql(itemId, sellerId, logfile):
                 db.commit()
             except:
                 printlog(u'Failed to execute the SQL. The SQL is:', sql, number, i, logfile)
-                exit(0)	#调试时打开此句。
+                #exit(0)	#调试时打开此句。
             printlog(u'Succeed in executing the SQL:', u'OK', number, i, logfile)
         oldjson = newjson
 #END OF rateList2mysql
@@ -159,9 +162,16 @@ number = 0 #已经爬取过数据的（包括正在爬的）商品的数目 全�
 if __name__ == '__main__':
     try:
         print(u'程序开始运行。')
-        # 抓取数据
+        #尝试连接数据库
+        db = MySQLdb.connect(db_config["hostname"],
+                             db_config["username"],
+                             db_config["password"],
+                             db_config["databasename"],
+                             charset='utf8')
+        #打开商品信息文件
         itemIdList = open('itemId.txt', 'r').readlines()
         sellerIdList = open('sellerId.txt', 'r').readlines()
+        # 抓取数据
         for (itemId,selllerId) in zip(itemIdList, sellerIdList)[number:]:
             time.sleep(2)	#谨慎起见
             number += 1
@@ -177,15 +187,17 @@ if __name__ == '__main__':
                 os.remove('{0}rateListLog.txt'.format(number-2))
             except OSError:
                 pass	#万一删除失败了也不再纠结于此
-            #break
+            break
         #关闭数据库连接
         db.close()
         print(u'程序运行结束。')
-    except:
-        errorstr = sys.exc_info()
+    #若程序意外终端则给管理员发送邮件
+    except Exception, e:
+        errorstr = traceback.format_exc()
+        print(errorstr)
         subject = "WARM!"
-        body = "Unexpeccted halt!"+errorstr
-        receiver = ["**************",]
+        body = "<h2>Unexpeccted halt!</h2><pre>"+str(errorstr)+"</pre>"
+        receiver = ["me@wangning.site",]
         send163mail(subject, body, receiver)
 
 '''
