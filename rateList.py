@@ -15,13 +15,16 @@ from email.mime.text import MIMEText
 reload(sys)
 sys.setdefaultencoding('utf-8')
 
+#管理员邮箱，接收程序运行信息之用
+receiver = ["me@wangning.site",]
+
 #在此处设置数据库连接信息
 db_config = {
     "hostname": "localhost",#主机名
     "username": "root",#数据库用户名
     "password": "root",#数据库密码
     "databasename": "tmalldata",#要存入数据的数据库名
-    "tablename": "rateList"#要存入数据的表名
+    "tablename": "zhikeyao"#要存入数据的表名
     }
 
 #发送HTTP请求时的HEAD信息，用于伪装为浏览器
@@ -46,8 +49,8 @@ def send163mail(subject, body, receiver):
     其中body支持html格式，receiver是列表，每个元素是一个收件人地址'''
     host = 'smtp.163.com'  # 设置发件服务器地址
     port = 25  # 设置发件服务器端口号。注意，这里有SSL和非SSL两种形式
-    sender = '************@163.com'  # 设置发件邮箱，一定要自己注册的邮箱
-    pwd = '************'  # 设置发件邮箱的密码，等会登陆会用到
+    sender = '*********@163.com'  # 设置发件邮箱，一定要自己注册的邮箱
+    pwd = '***************'  # 设置发件邮箱的密码，等会登陆会用到
 
     msg = MIMEText(body, 'html') # 设置正文为符合邮件格式的HTML内容
     msg['subject'] = subject # 设置邮件标题
@@ -190,6 +193,11 @@ if __name__ == '__main__':
             #break
         #关闭数据库连接
         db.close()
+        #发送程序运行结束的邮件
+        subject = "OK!"
+        nowtime = strftime("%Y-%m-%d,%H:%M:%S", localtime())
+        body = "<h2>OK!</h2><p>{0}</p>".format(nowtime)
+        send163mail(subject, body, receiver)
         print(u'程序运行结束。')
     #若程序意外终端则给管理员发送邮件
     except Exception, e:
@@ -198,14 +206,13 @@ if __name__ == '__main__':
         subject = "WARM!"
         nowtime = strftime("%Y-%m-%d,%H:%M:%S", localtime())
         body = "<h2>Unexpeccted halt!</h2><pre>{0}</pre><p>{1}</p>".format(errorstr, nowtime)
-        receiver = ["me@wangning.site",]
         send163mail(subject, body, receiver)
 
 '''
 创建数据库时就设置好字符编码，防止中文乱码
 CREATE DATABASE tmalldata DEFAULT charACTER SET utf8 COLLATE utf8_general_ci;
 创建数据表
-CREATE TABLE rateList(
+CREATE TABLE zhikeyao(
 aliMallSeller varchar(8),
 anony varchar(8),
 appendComment text,
