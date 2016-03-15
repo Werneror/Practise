@@ -106,13 +106,13 @@ getall.py -w http://www.wangning.site -A .jpg.png
 
 采用如上所示的文件目录结构最后生成的数据库会是这样的：
 	mysql> show tables; 
-+----------------+ 
-| Tables_in_test | 
-+----------------+ 
-| abc            | 
-| def            | 
-| ghi            | 
-+----------------+ 
+	+----------------+ 
+	| Tables_in_test | 
+	+----------------+ 
+	| abc            | 
+	| def            | 
+	| ghi            | 
+	+----------------+ 
 
 表abc中的数据是根据目录abc下的sellerId.txt 和itemId.txt 文件采集的。
 
