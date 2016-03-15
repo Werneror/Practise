@@ -67,7 +67,7 @@ getall.py -w http://www.wangning.site -A .jpg.png
     pwd = '************'  #设置发件邮箱的密码，等会登陆会用到
 
 ### 2.配置数据库
-    首先修改数据库配置部分：
+首先修改数据库配置部分：
 
 	#在此处设置数据库连接信息
 
@@ -85,28 +85,27 @@ getall.py -w http://www.wangning.site -A .jpg.png
 
 然后进入Mysql执行一下语句创建数据库：
 
-CREATE DATABASE test DEFAULT charACTER SET utf8 COLLATE utf8_general_ci;
+	CREATE DATABASE test DEFAULT charACTER SET utf8 COLLATE utf8_general_ci;
 
 数据库名test可以随意修改，但两处要相同。
 ### 3.准备itemId.txt 和sellerId.txt
 
 需要准备好各商品的itemId.txt 和sellerId.txt，同一类商品的itemId和sellerId分别存放在同一个文件中并放在以商品类别名命名的文件夹中，如下所示：
 
- . 
-├── abc 
-│   ├── itemId.txt 
-│   └── sellerId.txt 
-├── def 
-│   ├── itemId.txt 
-│   └── sellerId.txt 
-├── ghi 
-│   ├── itemId.txt 
-│   └── sellerId.txt 
-└── rateList.py 
+	 . 
+	├── abc 
+	│   ├── itemId.txt 
+	│   └── sellerId.txt 
+	├── def 
+	│   ├── itemId.txt 
+	│   └── sellerId.txt 
+	├── ghi 
+	│   ├── itemId.txt 
+	│   └── sellerId.txt 
+	└── rateList.py 
 
 采用如上所示的文件目录结构最后生成的数据库会是这样的：
-
-mysql> show tables; 
+	mysql> show tables; 
 +----------------+ 
 | Tables_in_test | 
 +----------------+ 
