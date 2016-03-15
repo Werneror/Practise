@@ -63,24 +63,17 @@ getall.py -w http://www.wangning.site -A .jpg.png
 正确配置函数 send163mail中的作为发件邮箱的163邮箱：
 
     sender = '************@163.com'  #设置发件邮箱，一定要自己注册的邮箱
-
     pwd = '************'  #设置发件邮箱的密码，等会登陆会用到
 
 ### 2.配置数据库
 首先修改数据库配置部分：
 
 	#在此处设置数据库连接信息
-
 	db_config = {
-
 	    "hostname": "localhost",#主机名
-
 	    "username": "root",#数据库用户名
-
 	    "password": "root",#数据库密码
-
 	    "databasename": "test",#要存入数据的数据库名
-
 	    }
 
 然后进入Mysql执行一下语句创建数据库：
