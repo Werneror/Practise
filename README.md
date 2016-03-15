@@ -57,24 +57,39 @@ getall.py -w http://www.wangning.site -A .jpg.png
 
 ### 1.配置邮箱
 修改在程序开头处的管理员邮箱，这个邮箱会接收程序运行的错误信息和完成信息：
+
 	receiver = ["xxx@xxx.xxx",] 
+
 正确配置函数 send163mail中的作为发件邮箱的163邮箱：
-	sender = '************@163.com'  #设置发件邮箱，一定要自己注册的邮箱
-	pwd = '************'  #设置发件邮箱的密码，等会登陆会用到
+
+    sender = '************@163.com'  #设置发件邮箱，一定要自己注册的邮箱
+
+    pwd = '************'  #设置发件邮箱的密码，等会登陆会用到
 
 ### 2.配置数据库
-        首先修改数据库配置部分：
+    首先修改数据库配置部分：
+
 	#在此处设置数据库连接信息
+
 	db_config = {
+
 	    "hostname": "localhost",#主机名
+
 	    "username": "root",#数据库用户名
+
 	    "password": "root",#数据库密码
+
 	    "databasename": "test",#要存入数据的数据库名
+
 	    }
-        然后进入Mysql执行一下语句创建数据库：
+
+然后进入Mysql执行一下语句创建数据库：
+
 CREATE DATABASE test DEFAULT charACTER SET utf8 COLLATE utf8_general_ci;
+
 数据库名test可以随意修改，但两处要相同。
 ### 3.准备itemId.txt 和sellerId.txt
+
 需要准备好各商品的itemId.txt 和sellerId.txt，同一类商品的itemId和sellerId分别存放在同一个文件中并放在以商品类别名命名的文件夹中，如下所示：
 
  . 
