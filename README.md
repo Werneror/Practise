@@ -105,6 +105,7 @@ getall.py -w http://www.wangning.site -A .jpg.png
 	└── rateList.py 
 
 采用如上所示的文件目录结构最后生成的数据库会是这样的：
+
 	mysql> show tables; 
 	+----------------+ 
 	| Tables_in_test | 
