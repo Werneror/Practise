@@ -16,15 +16,14 @@ reload(sys)
 sys.setdefaultencoding('utf-8')
 
 #管理员邮箱，接收程序运行信息之用
-receiver = ["me@wangning.site",]
+receiver = ["XXX@XXXX.XXX",]
 
 #在此处设置数据库连接信息
 db_config = {
     "hostname": "localhost",#主机名
     "username": "root",#数据库用户名
     "password": "root",#数据库密码
-    "databasename": "tmalldata",#要存入数据的数据库名
-    "tablename": "zhikeyao"#要存入数据的表名
+    "databasename": "test",#要存入数据的数据库名
     }
 
 #发送HTTP请求时的HEAD信息，用于伪装为浏览器
@@ -49,8 +48,8 @@ def send163mail(subject, body, receiver):
     其中body支持html格式，receiver是列表，每个元素是一个收件人地址'''
     host = 'smtp.163.com'  # 设置发件服务器地址
     port = 25  # 设置发件服务器端口号。注意，这里有SSL和非SSL两种形式
-    sender = '*********@163.com'  # 设置发件邮箱，一定要自己注册的邮箱
-    pwd = '***************'  # 设置发件邮箱的密码，等会登陆会用到
+    sender = 'XXXXXXXXX@163.com'  # 设置发件邮箱，一定要自己注册的邮箱
+    pwd = '********************'  # 设置发件邮箱的密码，等会登陆会用到
 
     msg = MIMEText(body, 'html') # 设置正文为符合邮件格式的HTML内容
     msg['subject'] = subject # 设置邮件标题
@@ -62,14 +61,13 @@ def send163mail(subject, body, receiver):
     for item in receiver:
         msg['to'] = item  # 设置接收人
         s.sendmail(sender, item, msg.as_string())  # 发送邮件
-        time.sleep(20)	#谨慎起见，每发一封邮件都暂停20秒
-        print 'send mail to {0} is over.'.format(item)  #发送成功就会提示
+        time.sleep(5)	#谨慎起见，每发一封邮件都暂停5秒
+        print('send mail to {0} is over.'.format(item))  #发送成功就会提示
 #END OF send163mail
 
-def rateList2mysql(itemId, sellerId, logfile):
-    '''该函数将指定商品的评论信息保存到mysql数据库中，
-    itemId是商品id，sellerid是卖家id
-    同时日志信息会保存在logfile中'''
+def rateList2mysql(itemId, sellerId, tablename, logfile):
+    '''该函数将指定商品的评论信息保存到mysql数据库中的表tablename中，
+    itemId是商品id，sellerid是卖家id，同时日志信息会保存在logfile中'''
     oldjson = ''
     i = 0   #i表示页码
     while i<99:	#最多返回99页结果
@@ -125,7 +123,7 @@ def rateList2mysql(itemId, sellerId, logfile):
         mytable = pd.read_json(newjson) #不使用to_sql的原因是评论过于复杂，to_sql构造的sql语句常常出错
         printlog(u'Succeed in analyzing Json.', u'OK', number, i, logfile)
         for item in mytable.values:
-            sql = u"INSERT INTO "+unicode(db_config["tablename"])+u" VALUES ("
+            sql = u"INSERT INTO "+unicode(tablename)+u" VALUES ("
             for j in item:
                 temp = re.sub(r'\"', r'\\"', unicode(j))	#句子中出现"需转义
                 if len(temp)>1 and temp[-1]=="\\" and temp[-2]!="\\":	#防止句尾是\将后"转义时SQL语句出错
@@ -134,7 +132,7 @@ def rateList2mysql(itemId, sellerId, logfile):
             sql = sql[:-1]
             sql += u');'
             # 使用cursor()方法获取操作游标
-            try:#MySQLdb不支持长连接，在操作数据库前检查连接是否过期，过期则重连
+            try:#MySQLdb不支持长时间连接，在操作数据库前检查连接是否过期，过期则重连
                 db.ping(True)
             except:
                 #再次连接数据库
@@ -163,96 +161,119 @@ def rateList2mysql(itemId, sellerId, logfile):
 
 number = 0 #已经爬取过数据的（包括正在爬的）商品的数目 全局变量！
 if __name__ == '__main__':
-    try:
-        print(u'程序开始运行。')
-        #尝试连接数据库
-        db = MySQLdb.connect(db_config["hostname"],
-                             db_config["username"],
-                             db_config["password"],
-                             db_config["databasename"],
-                             charset='utf8')
-        #打开商品信息文件
-        itemIdList = open('itemId.txt', 'r').readlines()
-        sellerIdList = open('sellerId.txt', 'r').readlines()
-        # 抓取数据
-        for (itemId,selllerId) in zip(itemIdList, sellerIdList)[number:]:
-            time.sleep(2)	#谨慎起见
-            number += 1
-            #打开日志文件
-            logfile = open('{0}rateListLog.txt'.format(number), 'a')
-            printlog(u'Start collceting this rates.', u'OK', number, 0, logfile)
-            rateList2mysql(int(itemId), int(selllerId), logfile)
-            #关闭日志文件
-            printlog(u'Close log file.', u'OK', number, 0, logfile)
-            logfile.close()
-            #删除前一个的前一个商品的日志文件，避免最后日志文件过大
-            try:
-                os.remove('{0}rateListLog.txt'.format(number-2))
-            except OSError:
-                pass	#万一删除失败了也不再纠结于此
-            #break
-        #关闭数据库连接
-        db.close()
-        #发送程序运行结束的邮件
-        subject = "OK!"
-        nowtime = strftime("%Y-%m-%d,%H:%M:%S", localtime())
-        body = "<h2>OK!</h2><p>{0}</p>".format(nowtime)
-        send163mail(subject, body, receiver)
-        print(u'程序运行结束。')
-    #若程序意外终端则给管理员发送邮件
-    except Exception, e:
-        errorstr = traceback.format_exc()
-        print(errorstr)
-        subject = "WARM!"
-        nowtime = strftime("%Y-%m-%d,%H:%M:%S", localtime())
-        body = "<h2>Unexpeccted halt!</h2><pre>{0}</pre><p>{1}</p>".format(errorstr, nowtime)
-        send163mail(subject, body, receiver)
+    dirs = os.listdir(os.getcwd())	    #读取目录信息
+    dirs.remove('rateList.py')
+    dirs.remove('rateList.py~')
+    for d in dirs:
+        try:
+
+            #打开商品信息文件
+            itemIdfile = open(d+'/itemId.txt', 'r')
+            itemIdList = itemIdfile.readlines()
+            sellerfile = open(d+'/sellerId.txt', 'r')
+            sellerIdList = sellerfile.readlines()
+
+            #尝试连接数据库
+            tablename = d   #表名等于目录名
+            db = MySQLdb.connect(db_config["hostname"],
+                                 db_config["username"],
+                                 db_config["password"],
+                                 db_config["databasename"],
+                                 charset='utf8')
+            #尝试创建表
+            sql = '''CREATE TABLE '''+tablename+'''(
+                    aliMallSeller varchar(8),
+                    anony varchar(8),
+                    appendComment text,
+                    attributes text,
+                    attributesMap text,
+                    aucNumId tinytext,
+                    auctionPicUrl tinytext,
+                    auctionPrice tinytext,
+                    auctionSku tinytext,
+                    auctionTitle tinytext,
+                    buyCount varchar(20),
+                    carServiceLocation tinytext,
+                    cmsSource varchar(20),
+                    displayRatePic varchar(20),
+                    displayRateSum varchar(20),
+                    displayUserLink tinytext,
+                    displayUserNick varchar(20),
+                    displayUserNumId tinytext,
+                    displayUserRateLink tinytext,
+                    dsr tinytext,
+                    fromMall varchar(8),
+                    fromMemory tinytext,
+                    gmtCreateTime varchar(22),
+                    id varchar(22),
+                    pics text,
+                    picsSmall tinytext,
+                    position tinytext,
+                    rateContent text,
+                    rateDate varchar(30),
+                    reply text,
+                    sellerId varchar(20),
+                    serviceRateContent text,
+                    structuredRateList tinytext,
+                    tamllSweetLevel tinytext,
+                    tmallSweetPic tinytext,
+                    tradeEndTime varchar(20),
+                    tradeId tinytext,
+                    useful varchar(8),
+                    userIdEncryption tinytext,
+                    userInfo tinytext,
+                    userVipLevel varchar(8),
+                    userVipPic tinytext);'''
+            # 使用cursor()方法获取操作游标
+            cursor = db.cursor()
+            #使用execute方法执行SQL语句
+            cursor.execute(sql)
+            cursor.close()
+            # 提交到数据库执行
+            db.commit()
+
+            # 抓取数据
+            for (itemId,selllerId) in zip(itemIdList, sellerIdList)[number:]:
+                time.sleep(1)	#谨慎起见
+                number += 1
+                #打开日志文件
+                logfile = open(d+'/{0}rateListLog.txt'.format(number), 'a')
+                printlog(u'Start collceting this rates.', u'OK', number, 0, logfile)
+                rateList2mysql(int(itemId), int(selllerId), tablename, logfile)
+                #关闭日志文件
+                printlog(u'Close log file.', u'OK', number, 0, logfile)
+                logfile.close()
+                #删除前一个的前一个商品的日志文件，避免最后日志文件过大
+                try:
+                    os.remove(d+'/{0}rateListLog.txt'.format(number-2))
+                except OSError:
+                    pass	#万一删除失败了也不再纠结于此
+                #break
+
+            #关闭数据库连接及文件等收尾工作
+            number = 0
+            db.close()
+            itemIdfile.close()
+            sellerfile.close()
+
+            #发送程序运行结束的邮件
+            subject = tablename
+            nowtime = strftime("%Y-%m-%d,%H:%M:%S", localtime())
+            body = "<h2>OK!</h2><p>{0}</p>".format(nowtime)
+            send163mail(subject, body, receiver)
+
+        #若程序意外终端则给管理员发送邮件
+        except Exception, e:
+            errorstr = traceback.format_exc()
+            print(errorstr)
+            subject = tablename
+            nowtime = strftime("%Y-%m-%d,%H:%M:%S", localtime())
+            body = "<h2>Unexpeccted halt!</h2><pre>{0}</pre><p>{1}</p>".format(errorstr, nowtime)
+            send163mail(subject, body, receiver)
+        #每抓完一类商品都暂停5秒
+        time.sleep(5)
 
 '''
 创建数据库时就设置好字符编码，防止中文乱码
-CREATE DATABASE tmalldata DEFAULT charACTER SET utf8 COLLATE utf8_general_ci;
-创建数据表
-CREATE TABLE zhikeyao(
-aliMallSeller varchar(8),
-anony varchar(8),
-appendComment text,
-attributes text,
-attributesMap text,
-aucNumId tinytext,
-auctionPicUrl tinytext,
-auctionPrice tinytext,
-auctionSku tinytext,
-auctionTitle tinytext,
-buyCount varchar(20),
-carServiceLocation tinytext,
-cmsSource varchar(20),
-displayRatePic varchar(20),
-displayRateSum varchar(20),
-displayUserLink tinytext,
-displayUserNick varchar(20),
-displayUserNumId tinytext,
-displayUserRateLink tinytext,
-dsr tinytext,
-fromMall varchar(8),
-fromMemory tinytext,
-gmtCreateTime varchar(22),
-id varchar(22),
-pics text,
-picsSmall tinytext,
-position tinytext,
-rateContent text,
-rateDate varchar(30),
-reply text,
-sellerId varchar(20),
-serviceRateContent text,
-structuredRateList tinytext,
-tamllSweetLevel tinytext,
-tmallSweetPic tinytext,
-tradeEndTime varchar(20),
-tradeId tinytext,
-useful varchar(8),
-userIdEncryption tinytext,
-userInfo tinytext,
-userVipLevel varchar(8),
-userVipPic tinytext);
+CREATE DATABASE test DEFAULT charACTER SET utf8 COLLATE utf8_general_ci;
 '''
