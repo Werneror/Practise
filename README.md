@@ -114,3 +114,6 @@ getall.py -w http://www.wangning.site -A .jpg.png
 
 在云主机使用nohup python2 rateList.py &命令（执行后若无命令提示符可按回车）可以确保退出ssh后爬虫程序继续运行。
 用ls命令查看日志文件的文件名就可以知道爬取进度。使用tail命令查看日志文件的最后几行，可以方便的追踪日志。
+
+##crypto.py
+密码学相关的运算
