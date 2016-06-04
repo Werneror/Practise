@@ -121,3 +121,8 @@ getall.py -w http://www.wangning.site -A .jpg.png
 ##LocationInfo.py和LocationInfo_en.py
 
 全球各大洲国家主要城市的信息，有中英文
+
+
+##BaiDuTranslate.py 
+
+调用百度翻译API的demo
