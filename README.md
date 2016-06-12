@@ -126,3 +126,7 @@ getall.py -w http://www.wangning.site -A .jpg.png
 ##BaiDuTranslate.py 
 
 调用百度翻译API的demo
+
+##createRAMtxt.py
+
+用来生成verilog的$readmemb所需的文件
