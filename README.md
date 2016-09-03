@@ -130,3 +130,7 @@ getall.py -w http://www.wangning.site -A .jpg.png
 ##createRAMtxt.py
 
 用来生成verilog的$readmemb所需的文件
+
+##idcard.py
+
+穷举带*的身份证号的可能情况
