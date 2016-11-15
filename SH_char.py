@@ -5,7 +5,7 @@ s = s[::-1]              #翻转输入的字符串
 print "xor ebx,ebx ;ebx=0"
 print "mov dword ptr [ebp-04h], ebx"
 
-m = 0
+m = 4
 n = 1
 tmp_h = ""
 tmp_s = ""

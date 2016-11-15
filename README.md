@@ -142,3 +142,5 @@ getall.py -w http://www.wangning.site -A .jpg.png
 ##SH_char.py
 
 用于生成shellcode中产生字符串的指令
+shellcode中经常要用到字符串作为API的参数，这些字符串需要自己用汇编指令生成，比较麻烦，所以写了这个脚本。
+只支持ASCII码。
