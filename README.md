@@ -138,3 +138,7 @@ getall.py -w http://www.wangning.site -A .jpg.png
 ##UDPtalk.py
 
 基于UDP协议的内网聊天程序
+
+##SH_char.py
+
+用于生成shellcode中产生字符串的指令
