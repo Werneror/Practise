@@ -1,4 +1,8 @@
 # ^_^ coding:utf-8 ^_^ 
+import sys
+reload(sys) 
+sys.setdefaultencoding('utf-8') 
+
 def checkcode(idstr):
     """计算身份证号的最后一位验证码,
        输入参数是身份证号的前17位，是字符串,
@@ -98,7 +102,7 @@ def guess_id_num(idstr):
             possible.append(idstr)
     return possible
 if __name__ == '__main__':
-    idstr="620602*98305*44687"
+    idstr = raw_input(u"请输入身份证号，不知道的位数用*占位: ")
     l = guess_id_num(idstr)
     for i in l:
         print i
