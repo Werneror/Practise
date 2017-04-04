@@ -160,3 +160,7 @@ shellcode中经常要用到字符串作为API的参数，这些字符串需要�
 ##s2-045.py
 
 Struts2-045漏洞检测脚本
+
+## baidu_crawler.py
+
+爬取百度搜索结果的爬虫
