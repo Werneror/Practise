@@ -42,7 +42,7 @@ def verify_by_birthday(idstr):
         if mouth<1 or mouth >12:
             return False
     except ValueError:
-        pass
+        return False
     try:
         day = int(idstr[12:14])
         if day<1 or day >31:
@@ -73,7 +73,7 @@ def traversal(idstr):
         try:
             position = idstr.index("*")
         except ValueError:
-            break; 
+            break
         heaplist=heaplist[1:]
         l=idstr.split("*" ,1)
         if position==6:                   #年份的第一个数字
@@ -88,22 +88,22 @@ def traversal(idstr):
             span = range(10)
         for i in span:
             temp = l[0]+str(i)+l[1]
-            if verify_by_birthday(temp):
-                heaplist.append(temp) 
+            heaplist.append(temp) 
     return heaplist
-
 
 def guess_id_num(idstr):
     """用效验码和地方编码、生日得到有星号的身份证号的可能情况"""
     possible = []
     l = traversal(idstr)
     for idstr in l:
-        if verify_by_checkcode(idstr):
+        if verify_by_checkcode(idstr) and verify_by_birthday(idstr):
             possible.append(idstr)
     return possible
+
 if __name__ == '__main__':
-    idstr = raw_input(u"请输入身份证号，不知道的位数用*占位: ")
-    l = guess_id_num(idstr)
-    for i in l:
-        print i
-    print "len=",len(l)
+    if len(sys.argv)<2:
+        print(u"请输入身份证号，不知道的位数用*占位")
+    else:
+        l = guess_id_num(sys.argv[1])
+        for i in l:
+            print i
