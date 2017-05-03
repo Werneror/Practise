@@ -36,7 +36,7 @@ def verify_by_birthday(idstr):
         if year<1900 or year>2020:
             return False
     except ValueError:
-        pass
+        return False
     try:
         mouth = int(idstr[10:12])
         if mouth<1 or mouth >12:
@@ -48,7 +48,7 @@ def verify_by_birthday(idstr):
         if day<1 or day >31:
             return False
     except ValueError:
-        pass
+        return False
     bigmouth = [1,3,5,7,8,10,12]
     if (not mouth in bigmouth) and day>30:
         return False    #不是大月而一个月多余30天
