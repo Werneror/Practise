@@ -163,3 +163,11 @@ Struts2-045漏洞检测脚本
 ## baidu_crawler.py
 
 爬取百度搜索结果的爬虫
+
+## weiboPhoto.py
+
+用于爬取新浪微博某个用户的某个相册中的所有图片的URL的爬虫。
+
+使用前需修改源码中的uid为目标用户ID，album_id为目标相册ID。这两个ID从相册中任意一张图片的URL中就可以找到，如[http://photo.weibo.com/2656274875/talbum/detail/photo_id/4195270959313828/album_id/3555383218964139](http://photo.weibo.com/2656274875/talbum/detail/photo_id/4195270959313828/album_id/3555383218964139)中“2656274875”是用户ID，“3555383218964139”是相册ID。
+
+爬取这些信息需要登录状态，故而还需要修改源码中的cookies。爬取结果保存在文件photo_urls.txt中，一行一个图片URL。从图片URL下载图片不需要登录信息。
