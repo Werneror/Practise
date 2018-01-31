@@ -3,9 +3,9 @@
 运行环境：
 
 - python 2.7.14
-- sklearn 0.19.1
 - numpy 1.10.2
-- csv 1.0.0
+- sklearn 0.19.1
+- matplotlib 1.5.1
 
 ## Chapter01 监督学习
 
