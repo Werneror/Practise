@@ -35,3 +35,14 @@
 - 2.10 生成验证曲线 car.py
 - 2.11 生成学习曲线 car.py
 - 2.12 估算收入阶层 income.py
+
+## Chapter03 预测建模
+
+- 3.1 简介 
+- 3.2 用SVM建立线性分类器 svm.py
+- 3.3 用SVM建立非线性分类器 svm.py
+- 3.4 解决类型数量不平衡问题 svm_imbalance.py
+- 3.5 提取置信度 svm_confidence.py
+- 3.6 寻找最优超参数 perform_grid_search.py
+- 3.7 建立事件预测器 event.py
+- 3.8 估算交通流量 traffic.py
