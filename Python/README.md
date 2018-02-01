@@ -58,7 +58,7 @@ getall.py -w http://www.wangning.site -A .jpg.png
 ### 1.配置邮箱
 修改在程序开头处的管理员邮箱，这个邮箱会接收程序运行的错误信息和完成信息：
 
-	receiver = ["xxx@xxx.xxx",] 
+	receiver = ["xxx@xxx.xxx",]
 
 正确配置函数 send163mail中的作为发件邮箱的163邮箱：
 
@@ -85,28 +85,28 @@ getall.py -w http://www.wangning.site -A .jpg.png
 
 需要准备好各商品的itemId.txt 和sellerId.txt，同一类商品的itemId和sellerId分别存放在同一个文件中并放在以商品类别名命名的文件夹中，如下所示：
 
-	 . 
-	├── abc 
-	│   ├── itemId.txt 
-	│   └── sellerId.txt 
-	├── def 
-	│   ├── itemId.txt 
-	│   └── sellerId.txt 
-	├── ghi 
-	│   ├── itemId.txt 
-	│   └── sellerId.txt 
-	└── rateList.py 
+	 .
+	├── abc
+	│   ├── itemId.txt
+	│   └── sellerId.txt
+	├── def
+	│   ├── itemId.txt
+	│   └── sellerId.txt
+	├── ghi
+	│   ├── itemId.txt
+	│   └── sellerId.txt
+	└── rateList.py
 
 采用如上所示的文件目录结构最后生成的数据库会是这样的：
 
-	mysql> show tables; 
-	+----------------+ 
-	| Tables_in_test | 
-	+----------------+ 
-	| abc            | 
-	| def            | 
-	| ghi            | 
-	+----------------+ 
+	mysql> show tables;
+	+----------------+
+	| Tables_in_test |
+	+----------------+
+	| abc            |
+	| def            |
+	| ghi            |
+	+----------------+
 
 表abc中的数据是根据目录abc下的sellerId.txt 和itemId.txt 文件采集的。
 
@@ -122,7 +122,7 @@ getall.py -w http://www.wangning.site -A .jpg.png
 
 全球各大洲国家主要城市的信息，有中英文
 
-## BaiDuTranslate.py 
+## BaiDuTranslate.py
 
 调用百度翻译API的demo
 
@@ -171,3 +171,9 @@ Struts2-045漏洞检测脚本
 使用前需修改源码中的uid为目标用户ID，album_id为目标相册ID。这两个ID从相册中任意一张图片的URL中就可以找到，如[http://photo.weibo.com/2656274875/talbum/detail/photo_id/4195270959313828/album_id/3555383218964139](http://photo.weibo.com/2656274875/talbum/detail/photo_id/4195270959313828/album_id/3555383218964139)中“2656274875”是用户ID，“3555383218964139”是相册ID。
 
 爬取这些信息需要登录状态，故而还需要修改源码中的cookies。爬取结果保存在文件photo_urls.txt中，一行一个图片URL。从图片URL下载图片不需要登录信息。
+
+## mbti_distribution.py
+
+绘制MBTI性格分布图，数据源是mbti_distribution.csv。绘制的图如下所示：
+
+![MBTI性格分布图](imgs/MBTI性格分布图.png)
