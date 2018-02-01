@@ -32,6 +32,6 @@
 - 2.7 混淆矩阵可视化 confusion_matrix.py
 - 2.8 提取性能报告 performance_reports.py
 - 2.9 根据汽车特征评估质量 car.py
-- 2.10 生成验证曲线
-- 2.11 生成学习曲线
-- 2.12 估算收入阶层
+- 2.10 生成验证曲线 car.py
+- 2.11 生成学习曲线 car.py
+- 2.12 估算收入阶层 income.py
