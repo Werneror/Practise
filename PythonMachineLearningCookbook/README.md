@@ -46,3 +46,15 @@
 - 3.6 寻找最优超参数 [perform_grid_search.py](Chapter03/perform_grid_search.py)
 - 3.7 建立事件预测器 [event.py](Chapter03/event.py)
 - 3.8 估算交通流量 [traffic.py](Chapter03/traffic.py)
+
+## Chapter04 无监督学习——聚类
+
+- 4.1 简介
+- 4.2 用k-means算法聚类数据 [kmeans.py](Chapter04/kmeans.py)
+- 4.3 用矢量量化压缩图片 [vector_quantization.py](Chapter04/vector_quantization.py)
+- 4.4 建立均值漂移聚类模型 [mean_shift.py](Chapter04/mean_shift.py)
+- 4.5 用凝聚层次聚类进行数据分组 [agglomerative.py](Chapter04/agglomerative.py)
+- 4.6 评价聚类算法的聚类效果 [performance.py](Chapter04/performance.py)
+- 4.7 用DBSCAN算法自动估算集群数量 [estimate_clusters.py](Chapter04/estimate_clusters.py)
+- 4.8 探索股票数据的模式 [stock_market.py](Chapter04/stock_market.py)
+- 4.9 建立客户细分模型 [customer_segmentation.py](Chapter04/customer_segmentation.py)
