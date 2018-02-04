@@ -58,3 +58,16 @@
 - 4.7 用DBSCAN算法自动估算集群数量 [estimate_clusters.py](Chapter04/estimate_clusters.py)
 - 4.8 探索股票数据的模式 [stock_market.py](Chapter04/stock_market.py)
 - 4.9 建立客户细分模型 [customer_segmentation.py](Chapter04/customer_segmentation.py)
+
+## Chapter05 构建推荐引擎
+
+- 5.1 简介
+- 5.2 为数据处理构建函数组合 [function_composition.py](Chapter05/function_composition.py)
+- 5.3 构建机器学习流水线 [pipeline.py](Chapter05/pipeline.py)
+- 5.4 寻找最近邻 [knn.py](Chapter05/knn.py)
+- 5.5 构建一个KNN分类器 [nn_classification.py](Chapter05/nn_classification.py)
+- 5.6 构建一个KNN回归器 [nn_regression.py](Chapter05/nn_regression.py)
+- 5.7 计算欧氏距离分数 [euclidean_score.py](Chapter05/euclidean_score.py)
+- 5.8 计算皮尔逊相系数 [pearson_score.py](Chapter05/pearson_score.py)
+- 5.9 寻找数据集中的相似用户 [find_similar_users.py](Chapter05/find_similar_users.py)
+- 5.10 生成电影推荐 [movie_recommendations.py](Chapter05/movie_recommendations.py)
