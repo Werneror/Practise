@@ -71,3 +71,16 @@
 - 5.8 计算皮尔逊相系数 [pearson_score.py](Chapter05/pearson_score.py)
 - 5.9 寻找数据集中的相似用户 [find_similar_users.py](Chapter05/find_similar_users.py)
 - 5.10 生成电影推荐 [movie_recommendations.py](Chapter05/movie_recommendations.py)
+
+## Chapter06 分析文本数据
+
+- 6.1 简介
+- 6.2 用标记解析的方法预处理数据 [tokenizer.py](Chapter06/tokenizer.py)
+- 6.3 提取文本数据的词干 [stemmer.py](Chapter06/stemmer.py)
+- 6.4 用词形还原的方法还原文本的基本形式 [lemmatizer.py](Chapter06/lemmatizer.py)
+- 6.5 用分块的方法划分文本 [chunking.py](Chapter06/chunking.py)
+- 6.6 创建词袋模型 [bag_of_words.py](Chapter06/bag_of_words.py)
+- 6.7 创建文本分类器 [tfidf.py](Chapter06/tfidf.py)
+- 6.8 识别性别 [gender_identification.py](Chapter06/gender_identification.py)
+- 6.9 分析句子情感 [sentiment_analysis.py](Chapter06/sentiment_analysis.py)
+- 6.10 用主题建模识别文本的模式 [topic_modeling.py](Chapter06/topic_modeling.py)
