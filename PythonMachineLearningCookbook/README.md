@@ -6,6 +6,8 @@
 - numpy 1.10.2
 - sklearn 0.19.1
 - matplotlib 1.5.1
+- hmmlearn 0.2.0
+- python-speech-features 0.6
 
 ## Chapter01 监督学习
 
@@ -84,3 +86,14 @@
 - 6.8 识别性别 [gender_identification.py](Chapter06/gender_identification.py)
 - 6.9 分析句子情感 [sentiment_analysis.py](Chapter06/sentiment_analysis.py)
 - 6.10 用主题建模识别文本的模式 [topic_modeling.py](Chapter06/topic_modeling.py)
+
+## Chapter07 语音识别
+
+- 7.1 简介
+- 7.2 读取和绘制音频数据 [read_plot.py](Chapter07/read_plot.py)
+- 7.3 将音频信号转换为频域 [freq_transform.py](Chapter07/freq_transform.py)
+- 7.4 自定义参数生成音频信号 [generate.py](Chapter07/generate.py)
+- 7.5 合成音乐 [synthesize_music.py](Chapter07/synthesize_music.py)
+- 7.6 提取频域特征 [extract_freq_features.py](Chapter07/extract_freq_features.py)
+- 7.7 创建隐马尔科夫模型 [speech_recognizer.py](Chapter07/speech_recognizer.py)
+- 7.8 创建一个语音识别器 [speech_recognizer.py](Chapter07/speech_recognizer.py)
