@@ -4,6 +4,8 @@
 
 - python 2.7.14
 - numpy 1.10.2
+- pystruct-0.2.4
+- pandas 0.21.1
 - sklearn 0.19.1
 - matplotlib 1.5.1
 - hmmlearn 0.2.0
@@ -97,3 +99,14 @@
 - 7.6 提取频域特征 [extract_freq_features.py](Chapter07/extract_freq_features.py)
 - 7.7 创建隐马尔科夫模型 [speech_recognizer.py](Chapter07/speech_recognizer.py)
 - 7.8 创建一个语音识别器 [speech_recognizer.py](Chapter07/speech_recognizer.py)
+
+## Chapter08 解剖时间序列和时序数据
+
+- 8.1 简介
+- 8.2 将数据转换为时间序列格式 [convert_to_timeseries.py](Chapter08/convert_to_timeseries.py)
+- 8.3 切分时间序列数据 [slicing_data.py](Chapter08/slicing_data.py)
+- 8.4 操作时间序列数据 [operating_on_data.py](Chapter08/operating_on_data.py)
+- 8.5 从时间序列数据中提取统计数字 [extract_stats.py](Chapter08/extract_stats.py)
+- 8.6 针对序列数据创建隐马尔科夫模型 [hmm.py](Chapter08/hmm.py)
+- 8.7 针对序列文本创建条件随机场 [crf.py](Chapter08/crf.py)
+- 8.8 用隐马尔科夫模型分析股票市场 [hmm_stock.py](Chapter08/hmm_stock.py)
