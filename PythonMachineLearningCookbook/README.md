@@ -7,8 +7,9 @@
 - pystruct-0.2.4
 - pandas 0.21.1
 - sklearn 0.19.1
-- matplotlib 1.5.1
 - hmmlearn 0.2.0
+- neurolab 0.3.5
+- matplotlib 1.5.1
 - python-speech-features 0.6
 
 ## Chapter01 监督学习
@@ -110,3 +111,37 @@
 - 8.6 针对序列数据创建隐马尔科夫模型 [hmm.py](Chapter08/hmm.py)
 - 8.7 针对序列文本创建条件随机场 [crf.py](Chapter08/crf.py)
 - 8.8 用隐马尔科夫模型分析股票市场 [hmm_stock.py](Chapter08/hmm_stock.py)
+
+## Chapter09 图像内容分析
+
+- 9.1 简介
+- 9.2 用OpenCV-Python操作图像
+- 9.3 检测边
+- 9.4 直方图均衡化
+- 9.5 检测棱角
+- 9.6 检测SIFT特征点
+- 9.7 创建Star特征检测器
+- 9.8 利用视觉码本和向量量化创建特征
+- 9.9 用极端随机森林训练图像分类器
+- 9.10 创建一个对象识别器
+
+## Chapter10 人脸识别
+
+- 10.1 简介
+- 10.2 从网络摄像头采集和处理视频信息
+- 10.3 用Haar级联创建一个人脸识别器
+- 10.4 做主成分分析
+- 10.5 做核主成分分析
+- 10.6 做盲源分离
+- 10.7 用局部二值模式直方图创建一个人脸识别器
+
+## Chapter11 深度神经网络
+
+- 11.1 简介
+- 11.2 创建一个感知器 [perceptron.py](Chapter11/perceptron.py)
+- 11.3 创建一个单层神经网络 [single_layer.py](Chapter11/single_layer.py)
+- 11.4 创建一个深度神经网络 [deep_neural_network.py](Chapter11/deep_neural_network.py)
+- 11.5 创建一个向量量化器 [vector_quantization.py](Chapter11/vector_quantization.py)
+- 11.6 为序列数据分析创建一个递归神经网络 [recurrent_network.py](Chapter11/recurrent_network.py)
+- 11.7 在光学字符识别数据库中将字符可视化 [visualize_characters.py](Chapter11/visualize_characters.py)
+- 11.8 用神经网络创建一个光学字符识别器 [ocr.py](Chapter11/ocr.py)
