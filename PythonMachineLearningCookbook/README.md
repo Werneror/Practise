@@ -145,3 +145,15 @@
 - 11.6 为序列数据分析创建一个递归神经网络 [recurrent_network.py](Chapter11/recurrent_network.py)
 - 11.7 在光学字符识别数据库中将字符可视化 [visualize_characters.py](Chapter11/visualize_characters.py)
 - 11.8 用神经网络创建一个光学字符识别器 [ocr.py](Chapter11/ocr.py)
+
+## Chapter12 数据可视化
+
+- 12.1 简介
+- 12.2 画出3D散点图 [scatter_3d.py](Chapter12/scatter_3d.py)
+- 12.3 画出气泡图 [bubble_plot.py](Chapter12/bubble_plot.py)
+- 12.4 画动态气泡图 [dynamic_bubble_plot.py](Chapter12/dynamic_bubble_plot.py)
+- 12.5 画饼图 [pie_chart.py](Chapter12/pie_chart.py)
+- 12.6 画日期格式的时间序列数据 [time_series.py](Chapter12/time_series.py)
+- 12.7 画直方图 [histogram.py](Chapter12/histogram.py)
+- 12.8 可视化热力图 [heatmap.py](Chapter12/heatmap.py)
+- 12.9 动态信号的可视化模拟 [moving_wave_variable.py](Chapter12/moving_wave_variable.py)
