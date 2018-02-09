@@ -177,3 +177,7 @@ Struts2-045漏洞检测脚本
 绘制MBTI性格分布图，数据源是mbti_distribution.csv。绘制的图如下所示：
 
 ![MBTI性格分布图](imgs/MBTI性格分布图.png)
+
+## double_chromosphere.py
+
+读取double_chromosphere.json中保存的双色球历史数据，使用高斯隐马尔科夫模型建模，预测下一期双色球号码。仅供娱乐。
