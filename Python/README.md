@@ -181,3 +181,16 @@ Struts2-045漏洞检测脚本
 ## double_chromosphere.py
 
 读取double_chromosphere.json中保存的双色球历史数据，使用高斯隐马尔科夫模型建模，预测下一期双色球号码。仅供娱乐。
+
+## NSCTF_web200.py
+
+下图所示题目的解题脚本。
+
+![NSCTF_web200题目](imgs/NSCTF_web200.jpg)
+
+输出为：
+
+```
+(python27) werner@Yasser:~$ python NSCTF_web200.py 
+flag:{NSCTF_b73d5adfb819c64603d7237fa0d52977}
+```
