@@ -194,3 +194,7 @@ Struts2-045漏洞检测脚本
 (python27) werner@Yasser:~$ python NSCTF_web200.py 
 flag:{NSCTF_b73d5adfb819c64603d7237fa0d52977}
 ```
+
+## jia.py
+
+一道[编程题目](http://ctf5.shiyanbar.com/jia/index.php)的解答。
