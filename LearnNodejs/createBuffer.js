@@ -1,0 +1,32 @@
+var buf = Buffer.from('runoob', 'ascii');
+console.log(buf.toString('hex'));
+console.log(buf.toString('base64'));
+var buf = Buffer.from('runoob', 'utf8');
+console.log(buf.toString('hex'));
+var buf = Buffer.from('runoob', 'base64');
+console.log(buf.toString('hex'));
+console.log(buf.toString('base64'));
+var buf = Buffer.from('runoob', 'hex');
+console.log(buf.toString('base64'));
+console.log(buf.toString('hex'));
+buf = Buffer.from('cnVub29i', 'base64');
+console.log(buf.toString('utf8'));
+var buf = Buffer.from('313233', 'hex')
+console.log(buf.toString('ascii'));
+var buf = Buffer.from('我', 'ascii');
+console.log(buf.toString('ascii'));
+var buf = Buffer.from('我', 'utf8');
+console.log(buf.toString('ascii'));
+console.log(buf.toString('utf8'));
+console.log(buf.toString('base64'));
+buf = Buffer.from('我是中国人', 'utf8');
+console.log(buf.toString('base64'));
+
+const buf1 = Buffer.alloc(10);
+console.log(buf1.toString('hex'));
+const buf2 = Buffer.alloc(10, 1);
+console.log(buf2.toString('hex'));
+const buf3 = Buffer.allocUnsafe(10);
+console.log(buf3.toString('hex'));
+const buf4 = Buffer.from([1,2,3]);
+console.log(buf4.toString('hex'));

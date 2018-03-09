@@ -46,3 +46,57 @@ EventEmitter 用法的复杂点的例子。
 
 1. listenerCount 是类方法所以写“require('events').EventEmitter.listenerCount(...)”而不写“eventEmitter.listenerCount(...)”
 2. eventEmitter.on()与eventEmitter.addListener()没有区别
+
+
+## [createBuffer.js](createBuffer.js)
+
+创建缓冲区。
+
+## [writeBuffer.js](writeBuffer.js)
+
+写缓冲区。疑惑在于什么叫做“只部分解码的字符不会被写入”。
+
+
+## [readBuffer.js](readBuffer.js)
+
+读缓冲区。
+
+
+## [bufferToJSON.js](bufferToJSON.js)
+
+缓冲区转为JSON数据。
+
+
+## [BufferOperation.js](BufferOperation.js)
+
+缓冲区其他操作。
+
+
+## [StreamOperation.js](StreamOperation.js)
+
+流的操作实例。
+
+
+## [compress.js](compress.js)
+
+用链式流压缩文件。
+
+
+## [decompress.js](decompress.js)
+
+用链式流解压文件。
+
+
+## [router.js](router.js)
+
+http服务路由初探。
+
+
+## [global.js](global.js)
+
+Node.js 全局对象。
+
+
+## [utilTest.js](utilTest.js)
+
+Node.js 核心模块 util 使用实例。
