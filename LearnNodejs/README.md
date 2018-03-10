@@ -100,3 +100,37 @@ Node.js 全局对象。
 ## [utilTest.js](utilTest.js)
 
 Node.js 核心模块 util 使用实例。
+
+
+## [file1.js](file1.js)
+
+文件操作，包括打开、关闭、读、写文件。
+
+
+## [file2.js](file2.js)
+
+文件操作，包括截取、删除文件，创建、读取、删除目录。
+
+
+## [request.js](request.js)
+
+获取GET/POST请求参数。
+
+
+## [osTest.js](osTest.js)
+
+os 模块使用示例。
+
+
+## [pathTest.js](pathTest.js)
+
+path 模块使用示例。
+
+
+## [serverBase.js](serverBase.js)
+
+简单的静态文件 Web 服务器。
+
+## [client.js](client.js)
+
+Web 客户端示例代码。
