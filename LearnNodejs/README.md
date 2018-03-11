@@ -140,3 +140,23 @@ Web 客户端示例代码。
 ## [expressDemo](expressDemo)
 
 一个简单的 express 项目，实现了取 GET、POST 参数，读取 cookie，上传文件等功能。
+
+
+## [RESTful.js][RESTful.js]
+
+REST 风格的Web服务器，实现了增删查功能。
+
+
+## [master.js](master.js)
+
+子进程相关。
+
+
+## [mysqlTest.js](mysqlTest.js)
+
+nodejs 操作 Mysql 数据库。
+
+
+## [mongodbTest.js](mongodbTest.js)
+
+nodejs 操作 mongodb 数据库。
