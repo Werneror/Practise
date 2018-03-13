@@ -1,4 +1,4 @@
-- LearnDynamodb
+# LearnDynamodb
 
 这些是我[学习用Node.js操作DynamoDB](https://docs.aws.amazon.com/zh_cn/amazondynamodb/latest/developerguide/GettingStarted.NodeJs.html)时写的代码。
 
