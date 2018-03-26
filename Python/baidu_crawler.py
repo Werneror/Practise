@@ -26,7 +26,7 @@ class crawler:
         'Accept-Encoding': 'gzip, deflate',
         'User-Agent': 'Mozilla/6.1 (Windows NT 6.3; WOW64; Trident/7.0; rv:11.0) like Gecko'
     }
-    
+
     def __init__(self, keyword):
         self.url = u'https://www.baidu.com/baidu?wd='+quote(keyword)+'&tn=monline_dg&ie=utf-8'
 
@@ -36,18 +36,18 @@ class crawler:
             self.timeout = int(time)
         except:
             pass
-        
+
     def set_total_pages(self, num):
         '''设置总共要爬取的页数'''
         try:
             self.total_pages = int(num)
         except:
             pass
-            
+
     def set_current_url(self, url):
         '''设置当前url'''
         self.url = url
-        
+
     def switch_url(self):
         '''切换当前url为下一页的url
            若下一页为空，则退出程序'''
@@ -55,7 +55,7 @@ class crawler:
             sys.exit()
         else:
             self.set_current_url(self.next_page_url)
-            
+
     def is_finish(self):
         '''判断是否爬取完毕'''
         if self.current_page >= self.total_pages:
@@ -63,7 +63,7 @@ class crawler:
         else:
             return False
 
-    def  get_html(self):
+    def get_html(self):
         '''爬取当前url所指页面的内容，保存到html中'''
         r = requests.get(self.url ,timeout=self.timeout, headers=self.headersParameters)
         if r.status_code==200:
@@ -75,13 +75,13 @@ class crawler:
 
     def get_urls(self):
         '''从当前html中解析出搜索结果的url，保存到o_urls'''
-        o_urls = re.findall('href\=\"(http\:\/\/www\.baidu\.com\/link\?url\=.*?)"', self.html)
+        o_urls = re.findall('href\=\"(http\:\/\/www\.baidu\.com\/link\?url\=.*?)\" class\=\"c\-showurl\"', self.html)
         o_urls = list(set(o_urls))  #去重
         self.o_urls = o_urls
         #取下一页地址
         next = re.findall(' href\=\"(\/s\?wd\=[\w\d\%\&\=\_\-]*?)\" class\=\"n\"', self.html)
-        if len(next)==1:
-            self.next_page_url = 'https://www.baidu.com'+next[0]
+        if len(next) > 0:
+            self.next_page_url = 'https://www.baidu.com'+next[-1]
         else:
             self.next_page_url = ''
 
@@ -100,12 +100,12 @@ class crawler:
         self.urls = []
         for o_url in self.o_urls:
             self.urls.append(self.get_real(o_url))
-            
+
     def print_urls(self):
         '''输出当前urls中的url'''
         for url in self.urls:
             print url
-            
+
     def print_o_urls(self):
         '''输出当前o_urls中的url'''
         for url in self.o_urls:
