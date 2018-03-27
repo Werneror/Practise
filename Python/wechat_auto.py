@@ -4,9 +4,9 @@ import time
 import itchat
 from itchat.content import *
 
-import sys  
-reload(sys)  
-sys.setdefaultencoding('utf8')   
+import sys
+reload(sys)
+sys.setdefaultencoding('utf8')
 
 def lc():
     print('login success')
@@ -37,7 +37,7 @@ def text_reply(msg):
     if is_sleeping():
         test = u"[自动回复]我已经睡觉了，明早回复您:)"
         msg.user.send(test)
-    elif is_outing:
+    elif is_outing():
         test = u"[自动回复]我在自习，没有带手机，暂时无法回复您。大概会在晚上21:30回复您。若有事可考虑给我发邮件（me@werner.wiki），我可能会看到。"
         msg.user.send(test)
     else:
