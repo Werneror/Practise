@@ -191,10 +191,15 @@ Struts2-045漏洞检测脚本
 输出为：
 
 ```
-(python27) werner@Yasser:~$ python NSCTF_web200.py 
+(python27) werner@Yasser:~$ python NSCTF_web200.py
 flag:{NSCTF_b73d5adfb819c64603d7237fa0d52977}
 ```
 
 ## jia.py
 
 一道[编程题目](http://ctf5.shiyanbar.com/jia/index.php)的解答。
+
+
+## wechat_auto.py
+
+当我睡觉或没带手机自习时自动回复微信。
