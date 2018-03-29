@@ -151,17 +151,14 @@ def question_answer(msg):
         for i, interlocution in enumerate(config["interlocution"]):
             ret += u"\n" + str(i) + u"." + interlocution["question"]
     else:
+        ret = ""
         matchObj = re.match(r"(^\d{1,2}$)", msg["Text"], re.I)
         if matchObj:
             number = int(matchObj.group(1))
             if number < len(config["interlocution"]):
                 ret = u"问：" + config["interlocution"][number]["question"]
                 ret += u"\n答：" + config["interlocution"][number]["answer"]
-            else:
-                ret = u"没有这个编号的问题。"
-            ret += u"\n（回复？查看更多）"
-        else:
-            ret = ""
+                ret += u"\n（回复？查看更多）"
     return ret
 
 @itchat.msg_register([TEXT])
