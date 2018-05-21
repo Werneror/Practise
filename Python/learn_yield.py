@@ -43,7 +43,7 @@ class Fab3():
             raise StopIteration()
 
 def fab4(max):
-    '''yeild版'''
+    '''yield版'''
     n, a, b = 0, 0, 1
     while n < max:
         yield b
