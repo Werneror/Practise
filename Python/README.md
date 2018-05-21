@@ -204,6 +204,7 @@ flag:{NSCTF_b73d5adfb819c64603d7237fa0d52977}
 
 当我睡觉或没带手机自习时自动回复微信。
 
+
 ## genetic_algorithm.py
 
 兼容Python2和3的单种群、适用于01字符串型基因的遗传算法。带一个简陋的过早退化检测。
@@ -214,3 +215,8 @@ flag:{NSCTF_b73d5adfb819c64603d7237fa0d52977}
 重组算子和变异算子的发生概率概率会极大的影响遗传算法效果。
 若发生概率过小则会导致过早退化，若概率过大则遗传算法会退化为随机搜索。
 概率设置应当和种群大小、基因长度相匹配，确保引入了适当的随机性。
+
+
+## learn_yield.py
+
+阅读[《Python yield 使用浅析 》](https://www.ibm.com/developerworks/cn/opensource/os-cn-python-yield/)后写的用于巩固学习成果的代码，在Python3.6中运行通过。
