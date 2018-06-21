@@ -23,7 +23,7 @@ def verify_by_checkcode(idstr):
        输入为18位的身份证号"""
     if len(idstr)!=18:
         return False
-    if checkcode(idstr[:17])==idstr[17]:
+    if checkcode(idstr[:17]).lower()==idstr[17].lower():
         return True
     else:
         return False
