@@ -7,6 +7,10 @@
 
 平日写的作为练习的C程序。
 
+## [PS](PS)
+
+平日写的作为练习的Powershell程序。
+
 
 ## [Python](Python)
 
