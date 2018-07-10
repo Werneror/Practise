@@ -59,3 +59,8 @@ C函数，非完整程序，
 ## my_auth_plugin.c
 
 一个简单的MariaDB认证插件，实现的认证机制是用户输入正确的姓名学号即可登录。用于演示认证插件的编写。详情见：[编写一个简单的MariaDB认证插件](https://blog.werner.wiki/write-a-simple-mariadb-auth-plugin/)。
+
+
+## myrootkit
+
+一个简单的Linux LKM Rootkit。

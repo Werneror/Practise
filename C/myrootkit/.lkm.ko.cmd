@@ -1,0 +1,1 @@
+cmd_/media/sf_下载/myrootkit/lkm.ko := ld -r -m elf_x86_64 -T /usr/src/linux-headers-4.9.0-kali4-common/scripts/module-common.lds --build-id  -o /media/sf_下载/myrootkit/lkm.ko /media/sf_下载/myrootkit/lkm.o /media/sf_下载/myrootkit/lkm.mod.o ;  true
