@@ -220,3 +220,9 @@ flag:{NSCTF_b73d5adfb819c64603d7237fa0d52977}
 ## learn_yield.py
 
 阅读[《Python yield 使用浅析 》](https://www.ibm.com/developerworks/cn/opensource/os-cn-python-yield/)后写的用于巩固学习成果的代码，在Python3.6中运行通过。
+
+
+## decrypt_tplink_config.py
+
+解密TP-LINK多款路由器配置文件config.bin的程序。
+
