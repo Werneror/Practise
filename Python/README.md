@@ -226,3 +226,26 @@ flag:{NSCTF_b73d5adfb819c64603d7237fa0d52977}
 
 解密TP-LINK多款路由器配置文件config.bin的程序。
 
+
+## argv_stdin.py
+
+同时从命令行参数和标准输入读取输入，如：
+
+```
+echo -e 'a\nb\nc' | python argv_stdin.py
+```
+
+和
+
+```
+python argv_stdin.py a b c
+```
+
+的输出都是
+
+```
+inputline: a
+inputline: b
+inputline: c
+```
+
