@@ -79,7 +79,7 @@ class crawler:
         o_urls = list(set(o_urls))  #去重
         self.o_urls = o_urls
         #取下一页地址
-        next = re.findall(' href\=\"(\/s\?wd\=[\w\d\%\&\=\_\-]*?)\" class\=\"n\"', self.html)
+        next = re.findall('href\=\"(\/s\?wd.*?)\" class\=\"n\"', self.html)
         if len(next) > 0:
             self.next_page_url = 'https://www.baidu.com'+next[-1]
         else:
