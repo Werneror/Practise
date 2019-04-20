@@ -132,7 +132,7 @@ getall.py -w http://www.wangning.site -A .jpg.png
 
 ## idcard.py
 
-穷举带*的身份证号的可能情况
+穷举带\*的身份证号的可能情况
 
 ## UDPtalk.py
 
@@ -254,3 +254,20 @@ inputline: c
 
 生成舒尔特方格。输出为docx文件，可打印。
 
+
+## sqli_boolian_blind_binary_chop.py
+
+使用二分查找的布尔型盲注，假设所有字符都是ASCII。
+
+效果：
+
+```
+> python sqli_boolian_blind_binary_chop.py
+select user(): root@localhost
+select database(): security
+There are tables emails, referers, uagents, users in database security
+There are columns id, email_id in table emails
+There are columns id, referer, ip_address in table referers
+There are columns id, uagent, ip_address, username in table uagents
+There are columns id, username, password in table users
+```
