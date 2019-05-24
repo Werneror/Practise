@@ -4,10 +4,9 @@
 import re
 import requests
 import traceback
-from urllib import quote
+from urllib.parse import quote
 import sys, getopt
-reload(sys)
-sys.setdefaultencoding('utf-8')
+
 
 class crawler:
     '''爬百度搜索结果的爬虫'''
@@ -71,11 +70,11 @@ class crawler:
             self.current_page += 1
         else:
             self.html = u''
-            print '[ERROR]',self.url,u'get此url返回的http状态码不是200'
+            print('[ERROR]',self.url,u'get此url返回的http状态码不是200')
 
     def get_urls(self):
         '''从当前html中解析出搜索结果的url，保存到o_urls'''
-        o_urls = re.findall('href\=\"(http\:\/\/www\.baidu\.com\/link\?url\=.*?)\" class\=\"c\-showurl\"', self.html)
+        o_urls = re.findall('target\=\"_blank\" href\=\"(http\:\/\/www\.baidu\.com\/link\?url\=.*?)\"', self.html)
         o_urls = list(set(o_urls))  #去重
         self.o_urls = o_urls
         #取下一页地址
@@ -104,12 +103,12 @@ class crawler:
     def print_urls(self):
         '''输出当前urls中的url'''
         for url in self.urls:
-            print url
+            print(url)
 
     def print_o_urls(self):
         '''输出当前o_urls中的url'''
         for url in self.o_urls:
-            print url
+            print(url)
 
     def run(self):
         while(not self.is_finish()):
