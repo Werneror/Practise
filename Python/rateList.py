@@ -72,7 +72,7 @@ def rateList2mysql(itemId, sellerId, tablename, logfile):
     i = 0   #i表示页码
     while i<99:	#最多返回99页结果
         i += 1
-        url = 'http://rate.tmall.com/list_detail_rate.htm'
+        url = 'http://rate.tmall.com/listTryReport.htm'
         urlparams = {'itemId':str(itemId),'sellerId':str(sellerId),'currentPage':str(i)}
         try:
             r = requests.get(url,params=urlparams,headers=headersParameters)
