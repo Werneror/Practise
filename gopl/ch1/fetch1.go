@@ -1,9 +1,9 @@
-// Fetch prints the content found at a URL.
+// For practice 1.7
 package main
 
 import (
 	"fmt"
-	"io/ioutil"
+	"io"
 	"net/http"
 	"os"
 )
@@ -15,12 +15,11 @@ func main() {
 			fmt.Fprintf(os.Stderr, "fetch: %v\n", err)
 			os.Exit(1)
 		}
-		b, err := ioutil.ReadAll(resp.Body)
+		_, err = io.Copy(os.Stdout, resp.Body)
 		resp.Body.Close()
 		if err != nil {
-			fmt.Fprintf(os.Stderr, "fetch: reading %s: %v\n", url, err)
+			fmt.Fprintf(os.Stderr, "fetch: copy %s: %v\n", url, err)
 			os.Exit(1)
 		}
-		fmt.Printf("%s", b)
 	}
 }
