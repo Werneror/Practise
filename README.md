@@ -30,3 +30,7 @@
 ## [LearnDynamodb](LearnDynamodb)
 
 [学习用Node.js操作DynamoDB](https://docs.aws.amazon.com/zh_cn/amazondynamodb/latest/developerguide/GettingStarted.NodeJs.html)时写的代码。
+
+## [gopl](gopl)
+
+阅读[《Go语言圣经（中文版）》](https://books.studygolang.com/gopl-zh/)时写的代码。
