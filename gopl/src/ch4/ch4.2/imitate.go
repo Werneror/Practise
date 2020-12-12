@@ -36,4 +36,16 @@ func main() {
 
 	fmt.Println([]int(nil))
 
+	var runes []rune
+	for _, r := range "Hello, 世界" {
+		runes = append(runes, r)
+	}
+	fmt.Printf("%U\n", runes) // "['H' 'e' 'l' 'l' 'o' ',' ' ' '世' '界']"
+
+	var x, y []int
+    for i := 0; i < 10; i++ {
+        y = append(x, i)
+        fmt.Printf("%d cap=%d\tlen=%d\t%v\n", i, cap(y), len(y), y)
+        x = y
+	}
 }
