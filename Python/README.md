@@ -291,3 +291,8 @@ There are columns id, username, password in table users
 ```
 
 看上去和布尔型盲注输出一样，但若将日志级别调为INFO，就可以看到攻击荷载完全不同。
+
+
+## afl-dup.py
+
+按崩溃时的调用栈对 afl 产生的 crash 去重。
