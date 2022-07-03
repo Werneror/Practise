@@ -296,3 +296,7 @@ There are columns id, username, password in table users
 ## afl-dup.py
 
 按崩溃时的调用栈对 afl 产生的 crash 去重。
+
+## afl-asan-check.py
+
+自动重放 afl-fuzz 发现的 crash，收集 ASAN 报告，展示去重后的结果。
