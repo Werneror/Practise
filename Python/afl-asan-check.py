@@ -55,7 +55,7 @@ class Crash:
         #     #0 0x4d21b1 in get_key_value /home/kali/Code/afl-training/challenges/cyber-grand-challenge/CROMU_00007/src/timecard.c:381:16
         for line in lines[3:]:
             line = line.strip()
-            if line.startswith('#'):
+            if line.startswith('#') and 'BuildId' not in line:
                 split = line.split(' ')
                 self.func_name = split[3]
                 self.code_location = split[4]
