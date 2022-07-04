@@ -300,3 +300,7 @@ There are columns id, username, password in table users
 ## afl-asan-check.py
 
 自动重放 afl-fuzz 发现的 crash，收集 ASAN 报告，展示去重后的结果。
+
+##  find_lib_dll.py
+
+找出 Windows 中 libXXX.dll 文件。
