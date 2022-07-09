@@ -297,10 +297,17 @@ There are columns id, username, password in table users
 
 按崩溃时的调用栈对 afl 产生的 crash 去重。
 
+
 ## afl-asan-check.py
 
 自动重放 afl-fuzz 发现的 crash，收集 ASAN 报告，展示去重后的结果。
 
+
 ##  find_lib_dll.py
 
 找出 Windows 中 libXXX.dll 文件。
+
+
+## good_fuzz_target.py
+
+检索 ubuntu 中的 dpkg 包信息，输出到 csv 文件，以方便人工确定适合 fuzz 的目标。
