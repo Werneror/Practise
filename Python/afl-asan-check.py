@@ -78,8 +78,8 @@ class Crash:
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
-    parser.add_argument("-c", "--command", help="bash command, @@ will be substituted for each crashfile", type=str)
-    parser.add_argument("-d", "--directory", help="afl-fuzz output directory", type=str)
+    parser.add_argument("-c", "--command", required=True, help="bash command, @@ will be substituted for each crashfile", type=str)
+    parser.add_argument("-d", "--directory", required=True, help="afl-fuzz output directory", type=str)
     args = parser.parse_args()
 
     crashes_pathes = list()
