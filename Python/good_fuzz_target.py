@@ -1,4 +1,6 @@
+#!/usr/bin/env python3
 # 通过检索 Linux 系统中的包来寻找适合的 fuzz 对象
+
 import os
 import re
 import csv
@@ -27,6 +29,9 @@ class Package:
         self.latest_year = years[-1]
 
     def get_status(self):
+        """
+        执行 dpkg-query -s 命令查询包信息
+        """
         status = os.popen("dpkg-query -s {}".format(self.name)).read().split('\n')
         in_description = False
         for line in status:
@@ -52,68 +57,90 @@ class Package:
                     continue
             in_description = False
 
+    def save_to_csv(self, dict_writer):
+        """
+        将包信息保存到 csv 文件
+        """
+        dict_writer.writerow(vars(self))
 
-def lib2pkg(lib):
+
+def filename2pkg(filename):
     """
-    输入 libXXX.so 文件，返回文件所属的包
+    输入文件名，返回文件所属的包
     若找不到对应的包，将返回空字符串，并输出错误信息到 stderr
     """
-    return os.popen("dpkg-query -S {} | head -n 1 | cut -d ':' -f 1".format(lib)).read().split('\n')[0]
+    return os.popen("dpkg-query -S {} | head -n 1 | cut -d ':' -f 1".format(filename)).read().split('\n')[0]
 
 
-def list_lib_link_count(directory, path='/tmp/lib.count'):
+def parse_sort_rn(data):
+    """
+    处理 sort -rn 命令的输出
+    """
+    results = list()
+    for line in data.split('\n'):
+        line = line.strip().split(' ')
+        if len(line) < 2:
+            continue
+        count = int(line[0])
+        item = line[1]
+        results.append((item, count))
+    return results
+
+
+def list_lib_link(directory):
     """
     执行 bash 命令，列出当前主机上不同的动态链接库的引用频率，按从高到低保存到文件中
     """
     print("[+] start list_lib_link_count")
-    os.system("find {}/ -perm /u+x -type f 2>/dev/null | xargs ldd 2>/dev/null | grep \"=>\" | awk '{{print \"basename \"$3}}' | sh | sort | uniq -c | sort -rn > {}".format(directory, path))
-    results = list()
-    with open(path) as f:
-        for line in f.readlines():
-            line = line.strip().split(' ')
-            count = int(line[0])
-            lib = line[1]
-            results.append((lib, count))
+    data = os.popen("find {}/ -perm /u+x -type f 2>/dev/null | xargs ldd 2>/dev/null | grep \"=>\" | awk '{{print \"basename \"$3}}' | sh | sort | uniq -c | sort -rn".format(directory)).read()
     print("[+] finish list_lib_link_count")
-    return results
+    return parse_sort_rn(data)
 
 
-def list_pkg_frequency(lib_link_count):
+def list_suid_files(directory):
     """
-    查出 libXXX.so 所属的包
+    执行 bash 命令，列出当前主机上所有设置了 suid 标志位的可执行文件
     """
-    print("[+] start list_pkg_frequency")
-    temp = dict()
-    for lib, count in lib_link_count:
-        pkg = lib2pkg(lib)
+    print("[+] start list_suid_files")
+    data = os.popen("find {} -user root -perm -4000 -type f 2>/dev/null | awk '{{print \"basename \"$1}}' | sh | sort | uniq -c | sort -rn".format(directory)).read()
+    print("[+] finish list_suid_files")
+    return parse_sort_rn(data)
+
+
+def file2pkg(file_count_tuples):
+    """
+    查出文件所属的包
+    """
+    print("[+] start file2pkg")
+    results = dict()
+    for filename, count in file_count_tuples:
+        pkg = filename2pkg(filename)
         if pkg == '':
             continue
-        if pkg not in temp:
-            temp[pkg] = 0
-        temp[pkg] += count
-    print("[+] finish list_pkg_frequency")
-    results = list()
-    for pkg in temp:
-        print("[+] now to query {} infomation".format(pkg))
-        p = Package(pkg, temp[pkg])
-        p.get_status()
-        p.get_changelog()
-        results.append(p)
-   
+        if pkg not in results:
+            results[pkg] = 0
+        results[pkg] += count
+    print("[+] finish file2pkg, total {}".format(len(results)))   
     return results
-
-
-def save_pkgs(pkgs, path):
-    if len(pkgs) == 0:
-        return
-    with open(path, 'w', newline="") as csvfile:
-        writer = csv.DictWriter(csvfile, fieldnames = list(vars(pkgs[0]).keys()))
-        writer.writeheader()
-        for pkg in pkgs:
-            writer.writerow(vars(pkg))
 
 
 if __name__ == '__main__':
     directory = "/"
-    pkgs = list_pkg_frequency(list_lib_link_count(directory))
-    save_pkgs(pkgs, "results.csv")
+    
+    # results = list_lib_link(directory)
+    results = list_suid_files(directory)
+    
+    results = file2pkg(results)
+
+    i = 1
+    with open("results.csv", 'w', newline="") as csvfile:
+        for pkg in results:
+            print("[+][{}] now to query {} infomation".format(i, pkg))
+            p = Package(pkg, results[pkg])
+            p.get_status()
+            p.get_changelog()
+            if i == 1:
+                writer = csv.DictWriter(csvfile, fieldnames = list(vars(p).keys()))
+                writer.writeheader()
+            p.save_to_csv(writer)
+            i = i + 1
