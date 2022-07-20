@@ -4,6 +4,7 @@ import re
 import os
 import argparse
 import subprocess
+from colorful_print import color
 
 
 def match(pattern, string):
@@ -115,6 +116,10 @@ if __name__ == '__main__':
     print('\n=================================================================\n')
 
     for key in crashes:
-        print(f'{key}, count={len(crashes[key])}, crash_files=')
+        title = f'{key}, count={len(crashes[key])}, crash_files='
+        if crashes[key][0].crash_type == 'WRITE':
+            color.red(title, bold=True)
+        else:
+            color.white(title, bold=True)
         for crash in crashes[key]:
-            print(f'\t{crash.crash_path}')
+            color.white(f'\t{crash.crash_path}')
