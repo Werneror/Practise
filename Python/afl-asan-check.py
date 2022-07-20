@@ -21,7 +21,7 @@ class Crash:
         self.crash_path = crash_path
 
     def run(self):
-        result = subprocess.run(self.cmd_template.replace('@@', self.crash_path), shell=True, text=True, capture_output=True)
+        result = subprocess.run(self.cmd_template.replace('@@', self.crash_path), shell=True, errors='ignore', text=True, capture_output=True)
         self.returncode = result.returncode
         self.stderr = result.stderr
         self.stdout = result.stdout
