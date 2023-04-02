@@ -311,3 +311,8 @@ There are columns id, username, password in table users
 ## good_fuzz_target.py
 
 检索 ubuntu 中的 dpkg 包信息，输出到 csv 文件，以方便人工确定适合 fuzz 的目标。
+
+
+## parse_hit_synonyms_ext.py
+
+将 txt 格式的哈工大社会计算与信息检索研究中心同义词词林扩展版转换为 JSON 版。
